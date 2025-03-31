@@ -15,10 +15,25 @@
       <input type="text" name="stock_title" placeholder="검색할 종목명을 입력하세요." autocomplete="off">
       <button type="submit">검색</button>
     </form>
-    {% if stock_title %}
-      <div class="search-result">
-        <strong>{{ stock_title }}</strong>
-      </div>
+    {% if data %}
+    <table border="1">
+      <tr>
+        <th>종목명</th>
+        <th>현재가</th>
+        <th>등락율</th>
+        <th>전일대비 등락</th>
+        <th>시가총액</th>
+      </tr>
+      {% for stock in data %}
+      <tr>
+        <td>{{ stock.itmsNm }}</td>
+        <td>{{ stock.clpr }}</td>
+        <td>{{ stock.fltRt }}%</td>
+        <td>{{ stock.vs }}</td>
+        <td>{{ stock.mrkTotAmt }}</td>
+      </tr>
+      {% endfor %}
+    </table>
     {% endif %}
     
     <form method="get" action="/">
