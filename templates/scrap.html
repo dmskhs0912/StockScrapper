@@ -1,41 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <title>Scrap</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+  <title>Scrap</title>
 </head>
 <body>
-    <form method="post" type="text" action="/scrap">
-        <b>키워드 : </b>
-        <input type="text" size=50 name="scrap_search" placeholder="스크랩할 키워드 입력" autocomplete="off">
-        <input type="submit" value="스크랩">
+  <div class="container">
+    <header>
+      <h1>Scrap</h1>
+    </header>
+    <form method="post" action="/scrap" class="form-scrap">
+      <label for="scrap_search"><strong>키워드 :</strong></label>
+      <input type="text" id="scrap_search" name="scrap_search" placeholder="스크랩할 키워드 입력" autocomplete="off">
+      <button type="submit">스크랩</button>
     </form>
-    <details>
+    <section class="rss-section">
+      <details>
         <summary>매일경제 RSS</summary>
         <ul>
-            {% for item in data[0] %}
-                <li><a href={{item.link}} target="_black">{{data.title}}</a></li>
-            {% endfor %}
+          {% for item in data[0] %}
+          <li><a href="{{ item.link }}" target="_blank">{{ item.title }}</a></li>
+          {% endfor %}
         </ul>
-    </details><br>
-    <details>
+      </details>
+      <details>
         <summary>한국경제 RSS</summary>
         <ul>
-            {% for item in data[1] %}
-                <li><a href={{item.link}} target="_black">{{data.title}}</a></li>
-            {% endfor %}
+          {% for item in data[1] %}
+          <li><a href="{{ item.link }}" target="_blank">{{ item.title }}</a></li>
+          {% endfor %}
         </ul>
-    </details><br>
-    <details>
+      </details>
+      <details>
         <summary>이투데이 RSS</summary>
         <ul>
-            {% for item in data[2] %}
-                <li><a href={{item.link}} target="_black">{{data.title}}</a></li>
-            {% endfor %}
+          {% for item in data[2] %}
+          <li><a href="{{ item.link }}" target="_blank">{{ item.title }}</a></li>
+          {% endfor %}
         </ul>
-    </details>
-
+      </details>
+    </section>
+  </div>
 </body>
 </html>

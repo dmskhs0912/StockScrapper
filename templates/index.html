@@ -1,18 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <title>주식 사이트</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+  <title>주식 사이트</title>
 </head>
 <body>
-    <h1>주식 사이트</h1>
-    <form method="get" action="/scrap">
-        <button type="submit">스크랩</button><br><br>
-    </form>
-    <form method="get" action="/search">
+  <div class="container">
+    <header>
+      <h1>주식 사이트</h1>
+    </header>
+    <nav class="nav-buttons">
+      <form method="get" action="/scrap">
+        <button type="submit">스크랩</button>
+      </form>
+      <form method="get" action="/search">
         <button type="submit">검색</button>
-    </form>
+      </form>
+    </nav>
+  </div>
 </body>
 </html>

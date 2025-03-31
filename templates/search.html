@@ -1,18 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <title>Search</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+  <title>Search</title>
 </head>
 <body>
-    <h1>검색 페이지입니다.</h1>
-    <form method='post' type="text" action="/search">
-        <input type="text" size="50" name="stock_title" placeholder="검색할 종목명을 입력하세요." autocomplete="off">
-        <input type="submit" value="검색">
+  <div class="container">
+    <header>
+      <h1>검색 페이지</h1>
+    </header>
+    <form method="post" action="/search" class="form-search">
+      <input type="text" name="stock_title" placeholder="검색할 종목명을 입력하세요." autocomplete="off">
+      <button type="submit">검색</button>
     </form>
-
-    <b>{{ search_text }}</b>
+    {% if search_text %}
+      <div class="search-result">
+        <strong>{{ search_text }}</strong>
+      </div>
+    {% endif %}
+  </div>
 </body>
 </html>
