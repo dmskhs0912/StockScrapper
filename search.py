@@ -1,33 +1,35 @@
 import requests
 from bs4 import BeautifulSoup
 
-#네이버 금융에서 전체 종목을 가져오기
+# 네이버 금융에서 전체 종목을 가져오기
 def get_stock_list():
-    url = 'https://finance.naver.com/sise/sise_market_sum.naver?sosok=0'
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-    }
-    
-    
-    response = requests.get(url, headers=headers)
-    response.raise_for_status()
-    
-    soup = BeautifulSoup(response.text, 'html.parser')
-    stock_table = soup.select('table.type_2 tr')
-    
-    #종목명과 종목코드 저장
+    # 종목명과 종목 코드 저장장
     stock_dict = {}
-    
-    for row in stock_table:
-        cols = row.find_all('td')
-        if len(cols) > 1:
-            name_tag = cols[1].select_one('a')
-            code_tag = cols[1].select_one('a[href]')
-            if name_tag and code_tag:
-                stock_name = name_tag.text.strip()
-                stock_code = code_tag['href'].split('=')[-1]
-                stock_dict[stock_name] = stock_code
-    
+
+    # 코스피sosks=0, 코스닥sosoks=1
+    for sosok in [0, 1]:
+        for page in range(1, 6):  # 1페이지부터 5페이지까지 저장장
+            url = f'https://finance.naver.com/sise/sise_market_sum.naver?sosok={sosok}&page={page}'
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            }
+
+            response = requests.get(url, headers=headers)
+            response.raise_for_status()
+
+            soup = BeautifulSoup(response.text, 'html.parser')
+            stock_table = soup.select('table.type_2 tr')
+
+            for row in stock_table:
+                cols = row.find_all('td')
+                if len(cols) > 1:
+                    name_tag = cols[1].select_one('a')
+                    code_tag = cols[1].select_one('a[href]')
+                    if name_tag and code_tag:
+                        stock_name = name_tag.text.strip()
+                        stock_code = code_tag['href'].split('=')[-1]
+                        stock_dict[stock_name] = stock_code
+
     return stock_dict
 
 #실시간 주가 출력
