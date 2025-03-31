@@ -1,6 +1,8 @@
 import scrap
 from flask import Flask, render_template, request
 
+RSS_URLS = ['https://www.mk.co.kr/rss/30100041/', 'https://www.hankyung.com/feed/finance', 'https://rss.etoday.co.kr/eto/finance_news.xml']
+
 
 app = Flask(__name__)
 
@@ -23,12 +25,14 @@ def search_page():
 @app.route('/scrap', methods=['GET', 'POST'])
 def scrap_page():
     if request.method == 'GET':
-        data = scrap.fetch_headlines()
-        return render_template('scrap.html', data=data)    
+        #data = scrap.fetch_headlines()
+        return render_template('scrap.html')    
     elif request.method == 'POST':
         scrap_search = request.form.get('scrap_search')
-        print(scrap_search)
-        return render_template('scrap.html')
+        data = []
+        for url in RSS_URLS:
+            data.append(scrap.fetch_headlines_with_keyword(url, scrap_search))
+        return render_template('scrap.html', data=data)
 
 if __name__ == '__main__':
     app.run(debug=True)

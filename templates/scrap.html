@@ -16,6 +16,7 @@
       <input type="text" id="scrap_search" name="scrap_search" placeholder="스크랩할 키워드 입력" autocomplete="off">
       <button type="submit">스크랩</button>
     </form>
+    {% if data %}
     <section class="rss-section">
       <details>
         <summary>매일경제 RSS</summary>
@@ -42,6 +43,7 @@
         </ul>
       </details>
     </section>
+    {% endif %}
   </div>
 </body>
 </html>
