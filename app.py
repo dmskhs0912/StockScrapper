@@ -14,7 +14,7 @@ def search_page():
         return render_template('search.html')
     
     elif request.method == 'POST':
-        stock_title = request.form.get('search_text')
+        stock_title = request.form.get('stock_title')
         # search.search_by_title(stock_title)이 구현되어있다고 가정. stock_title을 종목명으로 하는 주식 API 이용해서 검색.
         # 반환 데이터 형식은 딕셔너리. {'title': '...', 'price': '...'}
         #search_data = search.search_by_title(stock_title)
