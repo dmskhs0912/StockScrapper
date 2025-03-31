@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>검색 결과</title>
+</head>
+<body>
+    <h1>검색 결과</h1>
+    {% if stocks %}
+        <h2>{{ stocks[0].itmsNm }} 최근 5일 정보</h2>
+        <table border="1">
+            <tr>
+                <th>날짜</th>
+                <th>현재가</th>
+                <th>등락률</th>
+                <th>전일대비</th>
+                <th>시가총액</th>
+            </tr>
+            {% for stock in stocks %}
+            <tr>
+                <td>{{ stock.basDt }}</td>
+                <td>{{ "{:,}".format(stock.clpr | int) if stock.clpr else "정보 없음" }}</td>
+                <td>{{ stock.fltRt }}%</td>
+                <td>{{ "{:,}".format(stock.vs | int) if stock.vs else "정보 없음" }}</td>
+                <td>{{ "{:,}".format(stock.mrkTotAmt | int) if stock.mrkTotAmt else "정보 없음" }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>종목 정보를 찾을 수 없습니다</p>
+        {% if error %}
+            <p>에러: {{ error }}</p>
+        {% endif %}
+    {% endif %}
+
+    <a href="/">다시 검색하기</a>
+</body>
+</html>
