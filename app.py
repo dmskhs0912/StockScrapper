@@ -30,7 +30,7 @@ def scrap_page():
     elif request.method == 'POST':
         scrap_search = request.form.get('scrap_search')
         data = scrap.fetch_multiple_pages_with_keyword(RSS_URLS, scrap_search)
-        return render_template('scrap.html', data=data, keyword=scrap_search)
+        return render_template('scrap.html', data=data, keyword=scrap_search, excel_path=excel_path)
 
 @app.route('/scrap/send-email/<keyword>', methods=['POST'])
 def send_email(keyword):
@@ -38,6 +38,12 @@ def send_email(keyword):
     to_email = request.form.get('to_email')
     email_sender.send_news_email(RSS_URLS, keyword, to_email)
     return render_template('send.html', to_email=to_email, keyword=keyword)
+
+# 엑셀 다운로드 엔드포인트 
+@app.route('/download/<keyword>', methods=['GET'])
+def download_excel(keyword):
+    file_path = f"static/{keyword}_news.xlsx"
+    return send_file(file_path, as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=True)

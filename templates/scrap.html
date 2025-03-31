@@ -49,6 +49,9 @@
       <input type="text" id="to_email" name="to_email" placeholder="전송할 이메일 입력" autocomplete="off">
       <button type="submit">전송</button>
     </form>
+    <form method="get" action="{{ url_for('download_excel', keyword=keyword) }}">
+      <button type="submit">엑셀 다운로드</button>
+    </form>
     {% endif %}
     {% endif %}
     
