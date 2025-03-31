@@ -32,7 +32,7 @@
             <td>
                 <form method="post" action="/sellstock/{{ stock.stock_name }}">
                     <input type="hidden" name="sell_price" value="{{ stock.current_price }}">
-                    <input type="text" name="sell_quantity" value="{{ stock.quantity }}" placeholder="수량">
+                    <input type="text" name="sell_quantity" placeholder="수량">
                     <button type="submit">판매</button>
                 </form>
             </td>

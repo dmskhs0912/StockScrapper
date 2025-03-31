@@ -12,7 +12,7 @@ def connect_to_mongodb():
 def add_user(db, username, password, name, email, money=1000000):
     try:
         users = db['users']
-        user_data = {'username': username, 'password': password, 'name': name, 'email': email, 'balance': money}
+        user_data = {'username': username, 'password': password, 'name': name, 'email': email, 'balance': money, 'stocks': []}
         users.insert_one(user_data)
         return True
     except Exception as e:
