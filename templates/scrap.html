@@ -16,7 +16,7 @@
       <input type="text" id="scrap_search" name="scrap_search" placeholder="스크랩할 키워드 입력" autocomplete="off">
       <button type="submit">스크랩</button>
     </form>
-    {% if keyword %}
+    {% if data %}
     <section class="rss-section">
       <details>
         <summary>매일경제 RSS</summary>
@@ -43,11 +43,13 @@
         </ul>
       </details>
     </section>
+    {% if keyword %}
     <form method="post" action="/scrap/send-email/{{keyword}}" class="form-email">
       <label for="scrap_search"><strong>이메일 :</strong></label>
       <input type="text" id="to_email" name="to_email" placeholder="전송할 이메일 입력" autocomplete="off">
       <button type="submit">전송</button>
     </form>
+    {% endif %}
     {% endif %}
     
     <form method="get" action="/">
