@@ -62,6 +62,9 @@
     width: 500px; /* 원하는 크기로 조정 */
   }
   
+  .form-email input[type="text"] {
+    width: 300px; /* 원하는 크기로 조정 */
+  }
   /* RSS 섹션 스타일 */
   .rss-section details {
     margin-bottom: 15px;
