@@ -19,8 +19,9 @@ def search_page():
     
     elif request.method == 'POST':
         stock_title = request.form.get('stock_title')
+        username = session.get('username')
         data = search.print_st(stock_title)
-        return render_template('search.html', data=data)
+        return render_template('search.html', data=data, username=username)
 
 @app.route('/scrap', methods=['GET', 'POST'])
 def scrap_page():

@@ -21,12 +21,23 @@
         <th>종목명</th>
         <th>종목 코드</th>
         <th>현재가</th>
+        {% if username %}
+        <th>구매</th>
+        {% endif %}
       </tr>
       {% for stock in data %}
       <tr>
         <td>{{ stock.itmsNm }}</td>
         <td>{{ stock.code }}</td>
         <td>{{ stock.clpr }} 원</td>
+        {% if username %}
+        <td>
+          <form method="post" action="/buystock/{{ stock.itmsNm }}">
+            <input type="text" name="buy_quantity" placeholder="수량">
+            <button type="submit">구매</button>
+          </form>
+        </td>
+        {% endif %}
       </tr>
       {% endfor %}
     </table>
