@@ -1,7 +1,7 @@
 import scrap, search, email_sender
 from flask import Flask, render_template, request, redirect
 
-RSS_URLS = ['https://www.mk.co.kr/rss/30100041/', 'https://www.hankyung.com/feed/finance', 'https://rss.etoday.co.kr/eto/finance_news.xml']
+RSS_URLS = ['https://www.mk.co.kr/rss/50200011/', 'https://www.hankyung.com/feed/finance', 'https://rss.etoday.co.kr/eto/finance_news.xml']
 
 
 app = Flask(__name__)
@@ -25,7 +25,8 @@ def search_page():
 def scrap_page():
     if request.method == 'GET':
         #data = scrap.fetch_headlines()
-        return render_template('scrap.html')    
+        data = scrap.fetch_multiple_pages_with_keyword(RSS_URLS, '')
+        return render_template('scrap.html', data=data)   
     elif request.method == 'POST':
         scrap_search = request.form.get('scrap_search')
         data = scrap.fetch_multiple_pages_with_keyword(RSS_URLS, scrap_search)
