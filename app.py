@@ -50,7 +50,17 @@ def register():
     if request.method == 'GET':
         return render_template('register.html')
     elif request.method == 'POST':
-        return redirect('/register')
+        username = request.form.get('username')
+        password = request.form.get('password')
+        name = request.form.get('name')
+        email = request.form.get('email')
+
+        if db.users.find_one({'username': username}):
+            return render_template('register.html', error='아이디가 이미 사용 중입니다.')
+        else:
+            db.users.insert_one({'username': username, 'password': password, 'name': name, 'email': email})
+            return redirect('/')
+
 
 # 엑셀 다운로드 엔드포인트 
 @app.route('/download/<keyword>', methods=['GET'])
