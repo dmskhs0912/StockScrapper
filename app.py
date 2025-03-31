@@ -47,7 +47,10 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    pass
+    if request.method == 'GET':
+        return render_template('register.html')
+    elif request.method == 'POST':
+        return redirect('/register')
 
 # 엑셀 다운로드 엔드포인트 
 @app.route('/download/<keyword>', methods=['GET'])
