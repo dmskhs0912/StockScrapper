@@ -123,8 +123,27 @@ def buystock(stock_name):
     db_manager.update_user_balance(db, username, -(price * stock_quantity))
     return redirect('/search')
     
-
-
+@app.route('/sellstock/<stock_name>', methods=['POST'])
+def sellstock(stock_name):
+    if not session.get('username'):
+        return redirect('/login')
+    
+    username = session.get('username')
+    price = int(request.form.get('sell_price').replace(',', ''))
+    try:
+        sell_quantity = int(request.form.get('sell_quantity'))
+    except ValueError:
+        return redirect(f'/profile/{username}')
+    
+    user_stocks = db_manager.get_user_stocks(db, username)
+    for stock in user_stocks:
+        if stock['stock_name'] == stock_name:
+            if sell_quantity > stock['quantity']:
+                return redirect('/search')
+            
+            db_manager.update_user_stock(db, username, stock_name, stock['quantity'] - sell_quantity, price)
+            db_manager.update_user_balance(db, username, price * sell_quantity)
+    return redirect(f'/profile/{username}')
 
 # 엑셀 다운로드 엔드포인트 
 @app.route('/download/<keyword>', methods=['GET'])

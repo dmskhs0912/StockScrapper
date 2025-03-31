@@ -64,7 +64,12 @@ def update_user_stock(db, username, stock_name, quantity, current_price):
         if not users.find_one({'username': username,'stocks.stock_name': stock_name}):
             print(f"{username}은 다음 주식을 갖고 있지 않습니다: {stock_name}")
             return False
-        
+        if quantity <= 0:
+            users.find_one_and_update(
+                {'username': username,'stocks.stock_name': stock_name},
+                {'$pull': {'stocks': {'stock_name': stock_name}}})
+            return True
+
         user_data = users.find_one_and_update(
             {'username': username, 'stocks.stock_name': stock_name},
             {'$set': {'stocks.$.quantity': quantity, 'stocks.$.current_price': current_price}})

@@ -12,7 +12,7 @@
       <h1>{{ user_data.username }}님의 정보</h1>
       <p class="user-info">이름 : {{ user_data.name }}</p>
       <p class="user-info">이메일 : {{ user_data.email }}</p>
-      <p class="user-info">보유 현금 : {{ user_data.balance }}</p><br>
+      <p class="user-info">보유 현금 : {{ user_data.balance }} 원</p><br>
       {% if user_data.stocks %}
       <p class="user-info">보유 주식</p> 
       <table border="1">
@@ -21,6 +21,7 @@
             <th>수량</th>
             <th>주당 현재 가격</th>
             <th>평가 금액</th>
+            <th>판매</th>
         </tr>
         {% for stock in user_data.stocks %}
         <tr>
@@ -28,6 +29,13 @@
             <td>{{ stock.quantity }}주</td>
             <td>{{ stock.current_price }}원</td>
             <td>{{ stock.current_price * stock.quantity }}원</td>
+            <td>
+                <form method="post" action="/sellstock/{{ stock.stock_name }}">
+                    <input type="hidden" name="sell_price" value="{{ stock.current_price }}">
+                    <input type="text" name="sell_quantity" value="{{ stock.quantity }}" placeholder="수량">
+                    <button type="submit">판매</button>
+                </form>
+            </td>
         </tr>
         {% endfor %}
       </table>
