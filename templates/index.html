@@ -11,6 +11,10 @@
     <header>
       <h1>주식 사이트</h1>
     </header>
+    {% if username %}
+      <h2>{{ username }}님, 안녕하세요.</h2>
+      <a href="/profile/{{username}}">내 정보 보기</a>
+    {% endif %}
     <nav class="nav-buttons">
       <form method="get" action="/scrap">
         <button type="submit">스크랩</button>
@@ -18,9 +22,18 @@
       <form method="get" action="/search">
         <button type="submit">검색</button>
       </form>
+      {% if not username %}
+      <form method="get" action="/login">
+        <button type="submit">로그인</button>
+      </form>
       <form method="get" action="/register">
         <button type="submit">회원가입</button>
       </form>
+      {% else %}
+      <form method="get" action="/logout">
+        <button type="submit">로그아웃</button>
+      </form>
+      {% endif %}
     </nav>
   </div>
 </body>

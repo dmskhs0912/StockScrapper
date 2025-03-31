@@ -52,16 +52,16 @@ def print_st(stock_name):
     stock_dict = get_stock_list() #전체 종목 가져와서  get_stock_list에 저장
         
     #stock_dict에 stock_name 포함 종목 찾아서 matching_stock에 저장
-    matching_stocks = {name: stock_dict[name] for name in stock_dict.keys() if stock_name in name}
-
+    matching_stocks = {name: stock_dict[name] for name in stock_dict.keys() if stock_name.upper() in name.upper()}
+    result = []
     if matching_stocks:
         print("검색 결과:")
         for name, stock_code in matching_stocks.items():
             price = get_stock_price(stock_code)
             print(f"{name} (종목 코드: {stock_code})의 현재 주가: {price}")
+            result.append({'itmsNm': name, 'code':stock_code, 'clpr': price})
     else:
         print("해당 종목을 찾을 수 없습니다.")
 
-    return name, stock_code, price
-
+    return result
 

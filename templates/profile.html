@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+  <title>{{ user_data.username }} - 내 정보</title>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>{{ user_data.username }}님의 정보</h1>
+      <p class="user-info">이름 : {{ user_data.name }}</p>
+      <p class="user-info">이메일 : {{ user_data.email }}</p>
+      <p class="user-info">보유 현금 : {{ user_data.balance }}</p><br>
+      {% if user_data.stocks %}
+      <p class="user-info">보유 주식</p> 
+      <table border="1">
+        <tr>
+            <th>종목</th>
+            <th>수량</th>
+            <th>주당 현재 가격</th>
+            <th>평가 금액</th>
+        </tr>
+        {% for stock in user_data.stocks %}
+        <tr>
+            <td>{{ stock.stock_name }}</td>
+            <td>{{ stock.quantity }}주</td>
+            <td>{{ stock.current_price }}원</td>
+            <td>{{ stock.current_price * stock.quantity }}원</td>
+        </tr>
+        {% endfor %}
+      </table>
+      {% endif %}
+      
+    </header>
+    <form method="get" action="/">
+        <button type="submit" class="home-button">돌아가기</button>
+    </form>
+  </div>
+</body>
+</html>
