@@ -1,4 +1,6 @@
 import feedparser
+import pandas as pd
+import os
 
 # 키워드를 받아서, RSS 피드에서 해당 키워드가 포함된 제목들만 리턴하는 함수
 def fetch_headlines_with_keyword(rss_url, keyword, max_entries=50):

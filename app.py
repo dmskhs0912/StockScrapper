@@ -1,5 +1,5 @@
 import scrap, search, email_sender, db_manager
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, send_file
 
 RSS_URLS = ['https://www.mk.co.kr/rss/50200011/', 'https://www.hankyung.com/feed/finance', 'https://rss.etoday.co.kr/eto/finance_news.xml']
 
@@ -31,6 +31,7 @@ def scrap_page():
     elif request.method == 'POST':
         scrap_search = request.form.get('scrap_search')
         data = scrap.fetch_multiple_pages_with_keyword(RSS_URLS, scrap_search)
+        excel_path = scrap.save_news_to_excel(data, scrap_search)
         return render_template('scrap.html', data=data, keyword=scrap_search, excel_path=excel_path)
 
 @app.route('/scrap/send-email/<keyword>', methods=['POST'])
