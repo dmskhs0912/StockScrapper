@@ -29,9 +29,7 @@ def scrap_page():
         return render_template('scrap.html')    
     elif request.method == 'POST':
         scrap_search = request.form.get('scrap_search')
-        data = []
-        for url in RSS_URLS:
-            data.append(scrap.fetch_headlines_with_keyword(url, scrap_search))
+        data = scrap.fetch_multiple_pages_with_keyword(RSS_URLS, scrap_search)
         return render_template('scrap.html', data=data)
 
 if __name__ == '__main__':
