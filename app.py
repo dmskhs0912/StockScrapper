@@ -29,6 +29,7 @@ def detail_view():
     stocks = search_details.search_stock(stock_code).get('stocks')
     return render_template('search_details.html', stocks=stocks)
 
+
 @app.route('/scrap', methods=['GET', 'POST'])
 def scrap_page():
     if request.method == 'GET':
@@ -89,8 +90,40 @@ def profile(username):
         return redirect('/')
     
     user_data = db_manager.get_user_data(db, username)
-    # 주식 현재 가격으로 업데이트 하는 로직 필요
+    for stock in user_data['stocks']:
+        recent_data = search.get_exact_stock(stock['stock_name'])
+        if recent_data:
+            db_manager.update_user_stock(db, username, stock['stock_name'], stock['quantity'], recent_data['clpr'])
     return render_template('profile.html', user_data=user_data)
+
+@app.route('/buystock/<stock_name>', methods=['POST'])
+def buystock(stock_name):
+    if not session.get('username'):
+        return redirect('/login')
+    
+    username = session.get('username')
+    user_data = db_manager.get_user_data(db, username)
+    price = int(request.form.get('price').replace(',', ''))
+    try:
+        stock_quantity = int(request.form.get('buy_quantity'))
+    except ValueError:
+        return redirect(f'/search')
+    
+    if price * stock_quantity > user_data['balance']: # 잔액 부족
+        return redirect('/search')
+    
+    user_stocks = db_manager.get_user_stocks(db, username)
+    for stock in user_stocks:
+        if stock['stock_name'] == stock_name:
+            stock['quantity'] += stock_quantity
+            db_manager.update_user_stock(db, username, stock_name, stock['quantity'], price)
+            db_manager.update_user_balance(db, username, -(price * stock_quantity))
+            return redirect('/search')
+    db_manager.add_user_stock(db, username, stock_name, stock_quantity, price)
+    db_manager.update_user_balance(db, username, -(price * stock_quantity))
+    return redirect('/search')
+    
+
 
 
 # 엑셀 다운로드 엔드포인트 

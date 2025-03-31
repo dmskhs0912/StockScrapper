@@ -19,6 +19,17 @@ def add_user(db, username, password, name, email, money=1000000):
         print(f"Error adding user: {e}")
         return False
 
+def update_user_balance(db, username, amount):
+    try:
+        users = db['users']
+        user_data = users.find_one_and_update(
+            {'username': username}, 
+            {'$inc': {'balance': amount}})
+        return True
+    except Exception as e:
+        print(f"Error updating user balance: {e}")
+        return False
+
 def get_user_data(db, username):
     try:
         users = db['users']

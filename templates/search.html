@@ -40,6 +40,7 @@
         {% if username %}
         <td>
           <form method="post" action="/buystock/{{ stock.itmsNm }}">
+            <input type="hidden" name="price" value="{{ stock.clpr }}">
             <input type="text" name="buy_quantity" placeholder="수량">
             <button type="submit">구매</button>
           </form>
