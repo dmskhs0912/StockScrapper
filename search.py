@@ -65,3 +65,9 @@ def print_st(stock_name):
 
     return result
 
+def get_exact_stock(stock_name):
+    stock_dict = get_stock_list()
+    for name in stock_dict.keys():
+        if stock_name == name:
+            return {'itmsNm': name, 'code': stock_dict[name], 'clpr': int(get_stock_price(stock_dict[name]).replace(',', ''))}
+    return None
