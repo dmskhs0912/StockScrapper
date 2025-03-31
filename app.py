@@ -1,4 +1,4 @@
-import scrap
+import scrap, search
 from flask import Flask, render_template, request
 
 RSS_URLS = ['https://www.mk.co.kr/rss/30100041/', 'https://www.hankyung.com/feed/finance', 'https://rss.etoday.co.kr/eto/finance_news.xml']
@@ -17,9 +17,8 @@ def search_page():
     
     elif request.method == 'POST':
         stock_title = request.form.get('stock_title')
-        # search.search_by_title(stock_title)이 구현되어있다고 가정. stock_title을 종목명으로 하는 주식 API 이용해서 검색.
-        # 반환 데이터 형식은 딕셔너리. {'title': '...', 'price': '...'}
-        #search_data = search.search_by_title(stock_title)
+        data = search.search(stock_title)
+        print(data)
         return render_template('search.html', stock_title=stock_title)
 
 @app.route('/scrap', methods=['GET', 'POST'])
