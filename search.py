@@ -8,7 +8,7 @@ def get_stock_list():
 
     # 코스피sosks=0, 코스닥sosoks=1
     for sosok in [0, 1]:
-        for page in range(1, 6):  # 1페이지부터 5페이지까지 저장장
+        for page in range(1, 11):  # 1페이지부터 5페이지까지 저장장
             url = f'https://finance.naver.com/sise/sise_market_sum.naver?sosok={sosok}&page={page}'
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
@@ -57,10 +57,10 @@ def print_st(stock_name):
     matching_stocks = {name: stock_dict[name] for name in stock_dict.keys() if stock_name.upper() in name.upper()}
     result = []
     if matching_stocks:
-        print("검색 결과:")
+#        print("검색 결과:")
         for name, stock_code in matching_stocks.items():
             price = get_stock_price(stock_code)
-            print(f"{name} (종목 코드: {stock_code})의 현재 주가: {price}")
+            #print(f"{name} (종목 코드: {stock_code})의 현재 주가: {price}")
             result.append({'itmsNm': name, 'code':stock_code, 'clpr': price})
     else:
         print("해당 종목을 찾을 수 없습니다.")
