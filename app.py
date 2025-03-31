@@ -1,4 +1,4 @@
-import scrap, search
+import scrap
 from flask import Flask, render_template, request
 
 
