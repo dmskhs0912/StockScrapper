@@ -22,3 +22,18 @@ def fetch_multiple_pages_with_keyword(rss_urls, keyword, max_entries=50):
         all_headlines.append(page_headlines)  # 각 페이지의 헤드라인을 리스트로 저장
 
     return all_headlines
+
+# 엑셀 파일 저장 기능 
+def save_news_to_excel(news_data, keyword):
+    file_path = f"static/{keyword}_news.xlsx"
+    
+    # 데이터 변환
+    all_news = []
+    for i, news_list in enumerate(news_data):
+        for news in news_list:
+            all_news.append({"RSS Source": f"Site {i+1}", "Title": news["title"], "Link": news["link"]})
+
+    df = pd.DataFrame(all_news)
+    df.to_excel(file_path, index=False)
+
+    return file_path
