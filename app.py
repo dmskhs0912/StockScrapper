@@ -17,9 +17,14 @@ def search():
         search_text = request.form.get('search_text')
         return render_template('search.html', search_text=search_text)
 
-@app.route('/scrap')
-def scrap():
-    return render_template('scrap.html')
+@app.route('/scrap', methods=['GET', 'POST'])
+def scrap_page():
+    if request.method == 'GET':
+        return render_template('scrap.html')    
+    elif request.method == 'POST':
+        scrap_search = request.form.get('scrap_search')
+        print(scrap_search)
+        return render_template('scrap.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
