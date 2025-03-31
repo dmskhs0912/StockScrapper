@@ -3,22 +3,7 @@ import requests
 BASE_URL = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo"
 API_KEY = "6u/cDWo0xCwclFJ3FhYrfsLemMvjJ8QCzrS383qo12i9Deb5QymzQjIXO3+cY8nv3Ak2+jFiRVWUxRKQVJeOIg=="
 
-'''from flask import Flask, render_template, request
-import requests
-
-app = Flask(__name__)
-
-BASE_URL = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo"
-API_KEY = "6u/cDWo0xCwclFJ3FhYrfsLemMvjJ8QCzrS383qo12i9Deb5QymzQjIXO3+cY8nv3Ak2+jFiRVWUxRKQVJeOIg=="
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-    
-
-@app.route('/search', methods=['POST'])'''
-def search(stock_name):
+def search_stock(stock_name):
     params = {
         "serviceKey": API_KEY,
         "numOfRows": "5",
@@ -31,12 +16,21 @@ def search(stock_name):
         response = requests.get(BASE_URL, params=params, timeout=10)
         response.raise_for_status()
         data = response.json()
+
         items = data.get('response', {}).get('body', {}).get('items', {}).get('item', [])
-        return items    
+
+        stocks = []
+        for item in items:
+            stock_info = {
+                "itmsNm": item.get("itmsNm"),        # 종목명
+                "clpr": item.get("clpr"),            # 현재가
+                "fltRt": item.get("fltRt"),          # 등락률
+                "vs": item.get("vs"),                # 전일대비 등락
+                "mrkTotAmt": item.get("mrktTotAmt")  # 시가총액
+            }
+            stocks.append(stock_info)
+
+        return stocks, None
 
     except Exception as e:
-        return str(e)
-
-
-#if __name__ == '__main__':
-#    app.run(debug=True)
+        return None, str(e)
