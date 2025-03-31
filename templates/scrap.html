@@ -43,8 +43,13 @@
         </ul>
       </details>
     </section>
+    <form method="post" action="/scrap/send-email/{{keyword}}" class="form-email">
+      <label for="scrap_search"><strong>이메일 :</strong></label>
+      <input type="text" id="to_email" name="to_email" placeholder="전송할 이메일 입력" autocomplete="off">
+      <button type="submit">전송</button>
+    </form>
     {% endif %}
-
+    
     <form method="get" action="/">
         <button type="submit" class="home-button">돌아가기</button>
     </form>
