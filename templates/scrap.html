@@ -12,17 +12,30 @@
         <input type="text" size=50 name="scrap_search" placeholder="스크랩할 키워드 입력" autocomplete="off">
         <input type="submit" value="스크랩">
     </form>
-    <table border="1">
-        <tr>
-            <th>제목</th>
-            <th>링크</th>
-            <th>저자</th>
-        </tr>
-        <tr>
-            <td>삼성전자 하락</td>
-            <td><a href="https://www.naver.com" target="_blank">www.naver.com</a></td>
-            <td>김현승</td>
-        </tr>
-    </table>
+    <details>
+        <summary>매일경제 RSS</summary>
+        <ul>
+            {% for item in data[0] %}
+                <li><a href={{item.link}} target="_black">{{data.title}}</a></li>
+            {% endfor %}
+        </ul>
+    </details><br>
+    <details>
+        <summary>한국경제 RSS</summary>
+        <ul>
+            {% for item in data[1] %}
+                <li><a href={{item.link}} target="_black">{{data.title}}</a></li>
+            {% endfor %}
+        </ul>
+    </details><br>
+    <details>
+        <summary>이투데이 RSS</summary>
+        <ul>
+            {% for item in data[2] %}
+                <li><a href={{item.link}} target="_black">{{data.title}}</a></li>
+            {% endfor %}
+        </ul>
+    </details>
+
 </body>
 </html>
