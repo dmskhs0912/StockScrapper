@@ -1,4 +1,4 @@
-import scrap, search, email_sender, db_manager
+import scrap, StockScrapper.search as search, email_sender, db_manager
 from flask import Flask, render_template, request, redirect, send_file
 
 RSS_URLS = ['https://www.mk.co.kr/rss/50200011/', 'https://www.hankyung.com/feed/finance', 'https://rss.etoday.co.kr/eto/finance_news.xml']
