@@ -57,6 +57,10 @@
   button:hover, input[type="submit"]:hover {
     background-color: #005fa3;
   }
+
+  .form-scrap input[type="text"] {
+    width: 550px; /* 원하는 크기로 조정 */
+  }
   
   /* RSS 섹션 스타일 */
   .rss-section details {
