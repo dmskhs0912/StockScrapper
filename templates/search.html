@@ -21,6 +21,7 @@
         <th>종목명</th>
         <th>종목 코드</th>
         <th>현재가</th>
+        <th>상세 정보보</th>
         {% if username %}
         <th>구매</th>
         {% endif %}
@@ -30,6 +31,12 @@
         <td>{{ stock.itmsNm }}</td>
         <td>{{ stock.code }}</td>
         <td>{{ stock.clpr }} 원</td>
+        <td>
+          <form method="post" action="/search/detail">
+            <input type="hidden" name="code" value="{{ stock.code }}">
+            <button type="submit">보기</button>
+          </form>
+        </td>
         {% if username %}
         <td>
           <form method="post" action="/buystock/{{ stock.itmsNm }}">

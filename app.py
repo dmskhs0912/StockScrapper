@@ -1,4 +1,4 @@
-import scrap, search, email_sender, db_manager
+import scrap, search, email_sender, db_manager, search_details
 from flask import Flask, render_template, request, redirect, send_file, session
 
 RSS_URLS = ['https://www.mk.co.kr/rss/50200011/', 'https://www.hankyung.com/feed/finance', 'https://rss.etoday.co.kr/eto/finance_news.xml']
@@ -22,6 +22,12 @@ def search_page():
         username = session.get('username')
         data = search.print_st(stock_title)
         return render_template('search.html', data=data, username=username)
+
+@app.route('/search/detail',methods=['POST'])
+def detail_view():
+    stock_code = request.form.get('code')
+    stocks = search_details.search_stock(stock_code).get('stocks')
+    return render_template('search_details.html', stocks=stocks)
 
 @app.route('/scrap', methods=['GET', 'POST'])
 def scrap_page():
