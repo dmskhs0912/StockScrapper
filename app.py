@@ -15,13 +15,15 @@ def index():
 @app.route('/search', methods=['GET', 'POST'])
 def search_page():
     if request.method == 'GET':
-        return render_template('search.html')
+        user_data = db_manager.get_user_data(db, session.get('username'))
+        return render_template('search.html', user_data=user_data)
     
     elif request.method == 'POST':
         stock_title = request.form.get('stock_title')
         username = session.get('username')
+        user_data = db_manager.get_user_data(db, username)
         data = search.print_st(stock_title)
-        return render_template('search.html', data=data, username=username)
+        return render_template('search.html', data=data, username=username, user_data=user_data)
 
 @app.route('/search/detail',methods=['POST'])
 def detail_view():

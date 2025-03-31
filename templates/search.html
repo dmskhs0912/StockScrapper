@@ -11,6 +11,9 @@
     <header>
       <h1>검색 페이지</h1>
     </header>
+    {% if user_data %}
+    <p>보유 현금 : {{ user_data.balance }} 원</p>
+    {% endif %}
     <form method="post" action="/search" class="form-search">
       <input type="text" name="stock_title" placeholder="검색할 종목명을 입력하세요." autocomplete="off">
       <button type="submit">검색</button>
