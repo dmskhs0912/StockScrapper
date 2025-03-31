@@ -36,7 +36,7 @@ def send_email(keyword):
     print(f'키워드 : {keyword}')
     to_email = request.form.get('to_email')
     email_sender.send_news_email(RSS_URLS, keyword, to_email)
-    return redirect('/scrap')
+    return render_template('send.html', to_email=to_email, keyword=keyword)
 
 if __name__ == '__main__':
     app.run(debug=True)

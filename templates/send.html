@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>이메일 전송 완료</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>이메일 전송 완료!</h1>
+        </header>
+        <b>{{to_email}} 으로 '{{keyword}}' 관련 뉴스 정보를 전송했습니다.</b>
+        <form method="get" action="/scrap">
+            <button type="submit" class="home-button">돌아가기</button>
+        </form>
+    </div>
+</body>
+</html>
