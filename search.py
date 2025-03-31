@@ -1,36 +1,67 @@
 import requests
+from bs4 import BeautifulSoup
 
-BASE_URL = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo"
-API_KEY = "6u/cDWo0xCwclFJ3FhYrfsLemMvjJ8QCzrS383qo12i9Deb5QymzQjIXO3+cY8nv3Ak2+jFiRVWUxRKQVJeOIg=="
-
-def search_stock(stock_name):
-    params = {
-        "serviceKey": API_KEY,
-        "numOfRows": "5",
-        "pageNo": "1",
-        "resultType": "json",
-        "likeItmsNm": stock_name
+#네이버 금융에서 전체 종목을 가져오기
+def get_stock_list():
+    url = 'https://finance.naver.com/sise/sise_market_sum.naver?sosok=0'
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
+    
+    
+    response = requests.get(url, headers=headers)
+    response.raise_for_status()
+    
+    soup = BeautifulSoup(response.text, 'html.parser')
+    stock_table = soup.select('table.type_2 tr')
+    
+    #종목명과 종목코드 저장
+    stock_dict = {}
+    
+    for row in stock_table:
+        cols = row.find_all('td')
+        if len(cols) > 1:
+            name_tag = cols[1].select_one('a')
+            code_tag = cols[1].select_one('a[href]')
+            if name_tag and code_tag:
+                stock_name = name_tag.text.strip()
+                stock_code = code_tag['href'].split('=')[-1]
+                stock_dict[stock_name] = stock_code
+    
+    return stock_dict
 
-    try:
-        response = requests.get(BASE_URL, params=params, timeout=10)
-        response.raise_for_status()
-        data = response.json()
+#실시간 주가 출력
+def get_stock_price(stock_code):
+    url = f'https://finance.naver.com/item/main.nhn?code={stock_code}'
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    }
+    
+    response = requests.get(url, headers=headers)
+    response.raise_for_status()
+    
+    soup = BeautifulSoup(response.text, 'html.parser')
+    price = soup.select_one('.no_today .blind') #종목의 가격 담고있음
+    
+    if price:
+        return price.text
+    else:
+        return "주가 정보를 찾을 수 없습니다."
 
-        items = data.get('response', {}).get('body', {}).get('items', {}).get('item', [])
+def print_st(stock_name):
+    stock_dict = get_stock_list() #전체 종목 가져와서  get_stock_list에 저장
+        
+    #stock_dict에 stock_name 포함 종목 찾아서 matching_stock에 저장
+    matching_stocks = {name: stock_dict[name] for name in stock_dict.keys() if stock_name in name}
 
-        stocks = []
-        for item in items:
-            stock_info = {
-                "itmsNm": item.get("itmsNm"),        # 종목명
-                "clpr": item.get("clpr"),            # 현재가
-                "fltRt": item.get("fltRt"),          # 등락률
-                "vs": item.get("vs"),                # 전일대비 등락
-                "mrkTotAmt": item.get("mrktTotAmt")  # 시가총액
-            }
-            stocks.append(stock_info)
+    if matching_stocks:
+        print("검색 결과:")
+        for name, stock_code in matching_stocks.items():
+            price = get_stock_price(stock_code)
+            print(f"{name} (종목 코드: {stock_code})의 현재 주가: {price}")
+    else:
+        print("해당 종목을 찾을 수 없습니다.")
 
-        return stocks, None
+    return name, stock_code, price
 
-    except Exception as e:
-        return None, str(e)
+
