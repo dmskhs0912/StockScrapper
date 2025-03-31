@@ -1,10 +1,11 @@
-import scrap, search, email_sender
+import scrap, search, email_sender, db_manager
 from flask import Flask, render_template, request, redirect
 
 RSS_URLS = ['https://www.mk.co.kr/rss/50200011/', 'https://www.hankyung.com/feed/finance', 'https://rss.etoday.co.kr/eto/finance_news.xml']
 
 
 app = Flask(__name__)
+db = db_manager.connect_to_mongodb()
 
 @app.route('/')
 def index():
@@ -39,5 +40,14 @@ def send_email(keyword):
     email_sender.send_news_email(RSS_URLS, keyword, to_email)
     return render_template('send.html', to_email=to_email, keyword=keyword)
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    pass
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    pass
+
 if __name__ == '__main__':
     app.run(debug=True)
+    
