@@ -142,7 +142,7 @@ def sellstock(stock_name):
     for stock in user_stocks:
         if stock['stock_name'] == stock_name:
             if sell_quantity > stock['quantity']:
-                return redirect('/search')
+                return redirect(f'/profile/{username}')
             
             db_manager.update_user_stock(db, username, stock_name, stock['quantity'] - sell_quantity, price)
             db_manager.update_user_balance(db, username, price * sell_quantity)
