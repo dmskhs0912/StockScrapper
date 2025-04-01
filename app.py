@@ -96,6 +96,8 @@ def profile(username):
         recent_data = search.get_exact_stock(stock['stock_name'])
         if recent_data:
             db_manager.update_user_stock(db, username, stock['stock_name'], stock['quantity'], recent_data['clpr'])
+
+    user_data = db_manager.get_user_data(db, username) # 최신화
     return render_template('profile.html', user_data=user_data)
 
 @app.route('/buystock/<stock_name>', methods=['POST'])
