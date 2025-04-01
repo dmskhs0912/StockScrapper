@@ -1,7 +1,10 @@
-import requests
+import requests, os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_URL = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo"
-API_KEY = "6u/cDWo0xCwclFJ3FhYrfsLemMvjJ8QCzrS383qo12i9Deb5QymzQjIXO3+cY8nv3Ak2+jFiRVWUxRKQVJeOIg=="
+API_KEY = os.getenv('STOCK_API_KEY')
 
 def search_stock(stock_code):
     params = {
