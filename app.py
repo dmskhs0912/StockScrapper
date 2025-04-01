@@ -41,8 +41,7 @@ def scrap_page():
     elif request.method == 'POST':
         scrap_search = request.form.get('scrap_search')
         data = scrap.fetch_multiple_pages_with_keyword(RSS_URLS, scrap_search)
-        excel_path = scrap.save_news_to_excel(data, scrap_search)
-        return render_template('scrap.html', data=data, keyword=scrap_search, excel_path=excel_path)
+        return render_template('scrap.html', data=data, keyword=scrap_search)
 
 @app.route('/scrap/send-email/<keyword>', methods=['POST'])
 def send_email(keyword):
@@ -152,7 +151,8 @@ def sellstock(stock_name):
 # 엑셀 다운로드 엔드포인트 
 @app.route('/download/<keyword>', methods=['GET'])
 def download_excel(keyword):
-    file_path = f"static/{keyword}_news.xlsx"
+    data = scrap.fetch_multiple_pages_with_keyword(RSS_URLS, keyword)
+    file_path = scrap.save_news_to_excel(data, keyword)
     return send_file(file_path, as_attachment=True)
 
 if __name__ == '__main__':
