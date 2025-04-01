@@ -12,7 +12,7 @@
       <h1>{{ user_data.username }}님의 정보</h1>
       <p class="user-info">이름 : {{ user_data.name }}</p>
       <p class="user-info">이메일 : {{ user_data.email }}</p>
-      <p class="user-info">보유 현금 : {{ user_data.balance }} 원</p><br>
+      <p class="user-info">보유 현금 : {{ "{:,}".format(user_data.balance) }} 원</p><br>
       {% if user_data.stocks %}
       <p class="user-info">보유 주식</p> 
       <table border="1">
